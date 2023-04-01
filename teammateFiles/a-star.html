@@ -14,14 +14,18 @@
 
 <body>
     <div class="container">
-        <canvas id="canvas"></canvas>
+        <div class="map">
+            <canvas id="canvas" width="600px" height="600px"></canvas>
+        </div>
         <div class="panel">
-            <div class="controls">
-                <input type="IN" placeholder="введите ширину">
-                <button id="createButton">create</button>
-                <button id="startButton">start</button>
-                <button id="clearButton">clear</button>
-            </div>
+            <input type="IN" placeholder="input">
+            <button id="createButton">create map</button>
+            <button id="beginButton">begin</button>
+            <button id="targetButton">target</button>
+            <button id="wallButton">wall</button>
+            <button id="startButton">start</button>
+            <button id="clearButton">clear</button>
+            <div class="controls"></div>
         </div>
         
         <script src="./a-star(base).js"></script>
