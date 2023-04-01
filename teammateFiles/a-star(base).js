@@ -3,11 +3,13 @@ const ctx = canvas.getContext('2d');
 const CELL_SIZE = 60;
 var startBttn = document.getElementById("startButton");
 var clearBttn = document.getElementById("clearButton");
+var inputBttn = document.getElementById("inputButton");
 
 var width = 10;
 canvas.width = width * CELL_SIZE;
 canvas.height = width * CELL_SIZE;
-var WALLS=[];
+
+var WALLS = [];
 
 class Cell {
     constructor(x, y, wall = false) {
@@ -45,10 +47,27 @@ function addObstacles(field, walls) {
         field[row][col].isWall = true;
     }
 }
-function addWall(wall){
+function deleteWall(wall) {
+    wall.isWall = false;
     drawCell(wall);
-    return WALLS.push(wall);
 }
+function addWall(cell) {
+    
+    if (!(cell.isStart||cell.isTarget)) {
+        if(!cell.isWall){
+            cell.isWall = true;
+            drawCell(cell);
+            WALLS.unshift(cell);
+        }else{
+            cell.isWall=false;
+            const index=WALLS.shift();
+            drawCell(cell);
+            WALLS.splice(index,1)
+        }
+    } 
+    return WALLS;
+}
+
 function AStarAlgorithm(startCell, targetCell, field) {
     let openList = [startCell];
     let closedList = [];
@@ -157,31 +176,32 @@ function drawMap(field, startCell, targetCell) {
 function getRandomCell(field) {
     let row = Math.floor(Math.random() * field.length);
     let col = Math.floor(Math.random() * field[0].length);
-    return(!field[row][col].isWall)?field[row][col]:getRandomCell(field);
+    return (!field[row][col].isWall) ? field[row][col] : getRandomCell(field);
 }
 
 var field = createField(width);
 
-canvas.onclick = function (event){
+canvas.onclick = function (event) {
     let x = event.offsetX;
     let y = event.offsetY;
-    x=Math.floor(x/CELL_SIZE);
-    y=Math.floor(y/CELL_SIZE);
-    field[y][x].isWall=true;
+    x = Math.floor(x / CELL_SIZE);
+    y = Math.floor(y / CELL_SIZE);
     addWall(field[y][x]);
 }
 
-addObstacles(field,WALLS);
+addObstacles(field, WALLS);
 
 let start = getRandomCell(field);
 let end = getRandomCell(field);
+start.isStart=true;
+end.isTarget=true;
 
 drawMap(field, start, end);
 
 startBttn.addEventListener('click', () => {
     let path = AStarAlgorithm(start, end, field);
-    return pathIsExist(path)?drawPath(path):alert("path doesn't exist:(")
+    return pathIsExist(path) ? drawPath(path) : alert("path doesn't exist:(")
 })
-clearBttn.addEventListener('click',()=>{
+clearBttn.addEventListener('click', () => {
     window.location.reload();
 })

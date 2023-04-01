@@ -9,17 +9,18 @@ body {
 .container{
 
   display: flex;
-  flex-direction:column;
+  flex-direction:row;
   align-items: center;
   margin:50px auto;
   
 }
-.canvas{
-  border-radius: 20px;
+.panel{
+  
 }
 .controls{
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
+  
 }
 button {
   color:aliceblue;
@@ -36,4 +37,16 @@ button {
 button:hover{
   background-color: white;
   color:rgb(64, 64, 64);
+}
+input[type=IN]{
+  color:white;
+  font-size: 14px;
+
+  height: 40px;
+  width:150px;
+  border-radius: 15px;
+  text-transform: uppercase;
+  margin: 20px ;
+  background-color:gray;
+  transition: 0.2s linear;
 }
